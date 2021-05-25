@@ -4,8 +4,9 @@
 # make build
 # make release
 # make debug
+# make test
 # make info
-
+# make run
 
 CC = g++
 INCLUDE = -I./include
@@ -18,10 +19,11 @@ OBJ_DIR = ${BUILD}/objs
 BIN_DIR = ${BUILD}/bin
 TARGET = program
 
-SRC = $(wildcard src/*.cpp)
+SRC = $(wildcard src/*.cpp) src/PriorityQueue/MaxPQ.cpp	src/PriorityQueue/MinPQ.cpp src/test/testmain.cpp 	
+# FILES = $(notdir ${SRC})
+# OBJECTS = $(patsubst %.cpp,%.o, ${SRC})
 OBJECTS  = $(SRC:src/%.cpp=$(OBJ_DIR)/%.o)
-DEPENDENCIES := $(OBJECTS:.o=.d) 						\
-
+DEPENDENCIES := $(OBJECTS:.o=.d) 	
 
 all: build $(BIN_DIR)/$(TARGET)
 
@@ -36,7 +38,7 @@ $(BIN_DIR)/$(TARGET): $(OBJECTS)
 -include $(DEPENDENCIES)
 
 # tells make that these commands are special targets (not associated with actual files)
-.PHONY: all build clean debug release info
+.PHONY: all build clean debug release info test run
 
 build:
 	@mkdir -p $(BIN_DIR)
@@ -47,6 +49,15 @@ debug: all
 
 release: CPPFLAGS += ${RELEASE_FLAGS}
 release: all
+
+# run the executable
+run:  
+	$(BIN_DIR)/$(TARGET)
+
+# predefine TEST as a macro to compile test code only
+test:  CPPFLAGS += -DTEST
+test:  debug
+test:  run				# execute program after compilation (can be execluded)
 
 clean:
 	-@rm -rvf $(OBJ_DIR)/*
