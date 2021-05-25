@@ -9,9 +9,9 @@ template <typename item>
 MaxPQ<item>::MaxPQ(std::vector<item> &c) : content(std::vector<item>()) 
 {
 
-    for(unsigned int i=0; i<c.size(); i++){
+    for (std::vector<int>::iterator i = std::begin(c); i != std::end(c); i++){
 
-        this->insert(c[i]);
+        this->insert(i);
     }
 }
 
