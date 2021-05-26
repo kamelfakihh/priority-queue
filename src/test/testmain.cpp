@@ -1,9 +1,7 @@
 #ifdef TEST
 
-#include"./PriorityQueue/MaxPQ.h"
-#include"./PriorityQueue/MinPQ.h"
-#include"../PriorityQueue/MaxPQ.cpp"
-#include"../PriorityQueue/MinPQ.cpp"
+#include"PriorityQueue/MaxPQ.h"
+#include"PriorityQueue/MinPQ.h"
 
 #include <iostream>
 #include <cassert>
