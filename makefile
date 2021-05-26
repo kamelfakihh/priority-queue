@@ -56,6 +56,7 @@ run:
 
 # predefine TEST as a macro to compile test code only
 test:  CPPFLAGS += -DTEST
+test:  clean
 test:  debug
 test:  run				# execute program after compilation (can be execluded)
 
