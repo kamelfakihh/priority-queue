@@ -1,138 +1,53 @@
 #ifndef PRIORITY_QUEUE_MAXPQ
 #define PRIORITY_QUEUE_MAXPQ
 
+#include "PriorityQueue/PriorityQueue.h"
+
 #include <vector>
 
 template <typename item>
-class MaxPQ {
+class MaxPQ : public PriorityQueue<item> {
 
 public:
 
-    MaxPQ();                                    // construct an empty queue
-    MaxPQ(std::vector<item> &content);           // construct a queue from a vector
-    MaxPQ(item content[], int nb_of_items);     // construct a queue from an array
+    MaxPQ();                                            // construct an empty queue
+    MaxPQ(std::vector<item> &content);                  // construct a queue from a vector
+    MaxPQ(item content[], int nb_of_items);             // construct a queue from an array
 
-    void insert(item it);                       // insert an item to the end of the queue
-    item delMax();                              // remove the maximum item 
-    int  size();
-    bool isEmpty();
+    item delMax();                                      // calls parent del() method 
 
 private:
 
-    void swim(int k);                           // moves item upwards in the tree to maintain heap order
-    void sink(int k);                           // moves item downwards in the tree to maintain heap order
-
-    bool more(int n1, int n2);                  // check if n1 > n2
-    void exchange(int n1, int n2);              // exchange items at index n1 and n2
-
-    std::vector<item> content;                  // index of item represent its position in the binary heap 
+    bool compare(int n1, int n2) override;              // check if n1 > n2
 
 };
 
 template <typename item>
-MaxPQ<item>::MaxPQ() : content(std::vector<item>()) {}
+MaxPQ<item>::MaxPQ() : PriorityQueue<item>() {}
 
 template <typename item>
-MaxPQ<item>::MaxPQ(std::vector<item> &c) : content(std::vector<item>()) 
+MaxPQ<item>::MaxPQ(std::vector<item> &c) : PriorityQueue<item>(c) 
 {
 
-    for (std::vector<int>::iterator i = std::begin(c); i != std::end(c); i++){
-
-        this->insert(i);
-    }
 }
 
 template <typename item>
-MaxPQ<item>::MaxPQ(item c[], int n) : content(std::vector<item>()) 
+MaxPQ<item>::MaxPQ(item c[], int n) : PriorityQueue<item>(c, n)
 {
-    for(unsigned int i=0; i<n; i++){
-
-        this->insert(c[i]);
-    }
-}
-
-template <typename item>
-void MaxPQ<item>::insert(item it){
-
-    content.push_back(it);      // insert item at the back
-    swim(size()-1);             // move it to its position in the heap order
+    
 }
 
 template <typename item>
 item MaxPQ<item>::delMax(){
 
-    item max = content[0];
-    exchange(0, size()-1);         // exchange first and last item
-    content.pop_back();
-    sink(0);                       // move the item currently in max pos to its position in heap order
-    return max; 
+    return this->del();
 }
 
 template <typename item>
-void MaxPQ<item>::swim(int k){
+bool MaxPQ<item>::compare(int n1, int n2){
 
-    // if parent's value is more than the item 
-    // exchange an item (k) with its parent (k/2)
-    // (root item does not have a parent)
-
-    while(k>0 && more(k/2, k)){
-
-        exchange(k, k/2);
-        k = k/2;
-    }
+    return this->content[n1] > this->content[n2];
 }
 
-template <typename item>
-void MaxPQ<item>::sink(int k){
-
-    // if child's value is greater than the item 
-    // exchange an item (k) with its greatest child (2k or 2k+1)
-    // (a leaf does not have any childs)
-    int j;
-
-    while( 2*k <= this->size()-1){
-
-        // assumes that first child is the largest
-        j = 2*k;    
-        
-        // compare both childs at 2k and 2k+1
-        // select largest       
-        if( j < this->size() - 1 && more(j, j+1) ){
-            j+=1;
-        }
-
-        // check if child node is larger than current item
-        if(!more(k , j)) break;
-
-        exchange(k, j);
-        k = j;
-    }
-}
-
-template <typename item>
-bool MaxPQ<item>::more(int n1, int n2){
-
-    return content[n1] > content[n2];
-}
-
-template <typename item>
-void MaxPQ<item>::exchange(int n1, int n2){
-
-    item temp = content[n1];
-    content[n1] = content[n2];
-    content[n2] = temp;
-}
-
-template <typename item>
-int MaxPQ<item>::size(){
-
-    return content.size();
-}
-
-template <typename item>
-bool MaxPQ<item>::isEmpty(){
-
-    return content.size() == 0;
-}
 
 #endif
