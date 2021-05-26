@@ -19,7 +19,7 @@ OBJ_DIR = ${BUILD}/objs
 BIN_DIR = ${BUILD}/bin
 TARGET = program
 
-SRC = $(wildcard src/*.cpp) src/PriorityQueue/MaxPQ.cpp	src/PriorityQueue/MinPQ.cpp src/test/testmain.cpp 	
+SRC = $(wildcard src/*.cpp) src/test/testmain.cpp 	
 # FILES = $(notdir ${SRC})
 # OBJECTS = $(patsubst %.cpp,%.o, ${SRC})
 OBJECTS  = $(SRC:src/%.cpp=$(OBJ_DIR)/%.o)
