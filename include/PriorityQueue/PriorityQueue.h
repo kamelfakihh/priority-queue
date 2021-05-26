@@ -14,7 +14,6 @@ public:
     PriorityQueue(item content[], int nb_of_items);      // construct a queue from an array
 
     void insert(item it);                                // insert an item to the end of the queue
-    item del();                                         // remove the maximum/minimum item 
     int  size();
     bool isEmpty();
 
@@ -24,11 +23,12 @@ private:
     void swim(int k);                                   // moves item upwards in the tree to maintain heap order
     void sink(int k);                                   // moves item downwards in the tree to maintain heap order
 
-    virtual bool compare(int n1, int n2);               // compare items at n1 and n2
+    virtual bool compare(int n1, int n2)  = 0;          // compare items at n1 and n2
     void exchange(int n1, int n2);                      // exchange items at n1 and n2
 
 protected:
 
+    item del();                                         // remove the maximum/minimum item 
     std::vector<item> content;                          // index of item represent its position in the binary heap 
 
 };
