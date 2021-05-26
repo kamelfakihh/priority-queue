@@ -12,6 +12,7 @@ public:
     PriorityQueue();                                     // construct an empty queue
     PriorityQueue(std::vector<item> &content);           // construct a queue from a vector
     PriorityQueue(item content[], int nb_of_items);      // construct a queue from an array
+    virtual ~PriorityQueue();
 
     void insert(item it);                                // insert an item to the end of the queue
     int  size();
@@ -54,6 +55,9 @@ PriorityQueue<item>::PriorityQueue(item c[], int n) : content(std::vector<item>(
         this->insert(c[i]);
     }
 }
+
+template <typename item>
+PriorityQueue<item>::~PriorityQueue() { }
 
 template <typename item>
 void PriorityQueue<item>::insert(item it){
